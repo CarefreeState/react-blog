@@ -9,6 +9,7 @@ import './index.scss'
 import { Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserInfo, clearUserInfo } from '@/store/AppStore/modules/user'
 
 const { Header, Sider } = Layout
 
@@ -42,23 +43,21 @@ const GeekLayout = () => {
   // 1. 获取当前路由路径
   const location = useLocation()
   console.log(location.pathname)
-  const selectedkey = location.pathname
 
   // 触发个人用户信息action
   const dispatch = useDispatch()
   useEffect(() => {
-    // dispatch(fetchUserInfo())
+    dispatch(fetchUserInfo())
   }, [dispatch])
 
   // 退出登录确认回调
   const onConfirm = () => {
     console.log('确认退出')
-    // dispatch(clearUserInfo())
+    dispatch(clearUserInfo())
     navigate('/login')
   }
 
-  // const name = useSelector(state => state.user.userInfo.name)
-  const name = 'sss'
+  const {name} = useSelector(state => state.user.userInfo)
   return (
     <Layout>
       <Header className="header">
@@ -66,6 +65,7 @@ const GeekLayout = () => {
         <div className="user-info">
           <span className="user-name">{name}</span>
           <span className="user-logout">
+            {/* 弹框 */}
             <Popconfirm title="是否确认退出？" okText="退出" cancelText="取消" onConfirm={onConfirm}>
               <LogoutOutlined /> 退出
             </Popconfirm>
@@ -77,7 +77,7 @@ const GeekLayout = () => {
           <Menu
             mode="inline"
             theme="dark"
-            selectedKeys={selectedkey}
+            selectedKeys={location.pathname} // 根据 key 对比（也就是当前 path）
             onClick={onMenuClick}
             items={items}
             style={{ height: '100%', borderRight: 0 }}></Menu>
