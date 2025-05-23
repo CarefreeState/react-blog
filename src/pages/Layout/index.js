@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 
 const Layout = () => {
   useEffect(() => {
-    console.log(request.get('user/profile'))
+    request.get('user/profile')
   }, [])
 
   return (
