@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getToken } from "./token";
 
 const request = axios.create(
   {
@@ -12,13 +13,13 @@ const request = axios.create(
 // 请求拦截器
 request.interceptors.request.use(
   (config) => {
-    // // 1.获取token
-    // const token = localStorage.getItem("token");
-    // // 2.判断token是否存在
-    // if (token) {
-    //   // 3.存在，设置请求头
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
+    // 1.获取token
+    const token = getToken()
+    // 2.判断token是否存在
+    if (token) {
+      // 3.存在，设置请求头
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     // 4.返回配置对象
     return config;
   },
