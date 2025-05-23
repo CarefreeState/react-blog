@@ -41,5 +41,6 @@ const AppRouter = () => {
     <RouterProvider router={router} />
   );
 }
+export { router }
 
-export default AppRouter;
+export default AppRouter

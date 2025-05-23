@@ -1,5 +1,7 @@
 import axios from "axios";
-import { getToken } from "./token";
+import { getToken, removeToken } from "./token";
+import {router} from '@/router/AppRouter'
+import { message } from 'antd';
 
 const request = axios.create(
   {
@@ -32,19 +34,17 @@ request.interceptors.request.use(
 // 响应拦截器
 request.interceptors.response.use(
   (res) => {
-    // 1.获取响应数据
-    const data = res.data;
-    // 2.判断响应数据是否存在
-    if (data) {
-      // 3.存在，返回响应数据
-      return data;
-    } else {
-      // 4.不存在，返回错误对象
-      return Promise.reject(new Error("响应数据不存在"));
-    }
+    return res.data
   },
   (err) => {
     // 5.返回错误对象
+    if(err.response.status === 401) {
+      // 跳转到登录页
+      removeToken()
+      router.navigate('/login')
+      message.error('登录状态无效，请重新登录')
+      return Promise.resolve({data: {}})
+    }
     return Promise.reject(err);
   }
 )
