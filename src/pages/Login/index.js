@@ -3,10 +3,18 @@ import React from 'react';
 import { Card, Form, Input, Button } from 'antd';
 import logo from '@/assets/logo.png';
 import './index.scss';
+import { fetchLogin } from '@/store/AppStore/modules/user';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 
 const Login = () => {
-  const onFinish = (values) => {
-    console.log('Success:', values);
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const onFinish = async (values) => {
+    await dispatch(fetchLogin(values))
+    navigate('/')
+    message.success('登录成功')
   }
 
   return (
@@ -21,8 +29,8 @@ const Login = () => {
             ]}>
             <Input size='large' placeholder="请输入用户名" />
           </Form.Item>
-          <Form.Item name="password" rules={[{ required: true, message: '请输入密码' }]}>
-            <Input.Password size='large' placeholder="请输入密码" />
+          <Form.Item name="code" rules={[{ required: true, message: '请输入验证码' }]}>
+            <Input size='large' placeholder="请输入验证码" />
           </Form.Item>
           <Form.Item>
             <Button type="primary" htmlType="submit" size='large'>
