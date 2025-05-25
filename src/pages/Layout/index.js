@@ -42,7 +42,6 @@ const GeekLayout = () => {
   // 反向高亮
   // 1. 获取当前路由路径
   const location = useLocation()
-  console.log(location.pathname)
 
   // 触发个人用户信息action
   const dispatch = useDispatch()
