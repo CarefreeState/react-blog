@@ -1,10 +1,11 @@
 import * as echarts from 'echarts';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const Home = () => {
+  const chartRef = useRef(null)
 
   useEffect(() => {
-    const chartDom = document.getElementById('main');
+    const chartDom = chartRef.current;
     const myChart = echarts.init(chartDom);
     const option = {
       xAxis: {
@@ -27,7 +28,7 @@ const Home = () => {
 
   return (
     <div>
-      <div id="main" style={{width: ""}}>
+      <div id="main" ref={chartRef} style={{width: "500px", height: "400px"}}>
       
       </div>
     </div>
