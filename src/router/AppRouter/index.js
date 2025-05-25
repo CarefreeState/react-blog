@@ -1,14 +1,15 @@
 // 路由配置
 import Layout from "@/pages/Layout";
 import Login from "@/pages/Login";
-import Home from "@/pages/Layout/Home";
-import Article from "@/pages/Layout/Article";
-import Publish from "@/pages/Layout/Publish";
-
 import AuthRoute from "@/components/AuthRoute";
 
 // 配置路由
 import { createHashRouter, RouterProvider} from "react-router-dom";
+import { lazy, Suspense } from "react";
+
+const Home = lazy(() => import("@/pages/Layout/Home"))
+const Article = lazy(() => import("@/pages/Layout/Article"))
+const Publish = lazy(() => import("@/pages/Layout/Publish"))
 
 const router = createHashRouter([
   {
@@ -18,15 +19,15 @@ const router = createHashRouter([
       {
         index: true,
         // path: "/",
-        element: <Home />,
+        element: <Suspense fallback={'加载中'}><Home /></Suspense>,
       },
       {
         path: "/article",
-        element: <Article />,
+        element: <Suspense fallback={'加载中'}><Article /></Suspense>,
       },
       {
         path: "/publish",
-        element: <Publish />,
+        element: <Suspense fallback={'加载中'}><Publish /></Suspense>,
       }
     ],
   },
